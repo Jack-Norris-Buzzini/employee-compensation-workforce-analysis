@@ -57,3 +57,37 @@ ORDER BY
         WHEN '11-20 Years' THEN 4
         WHEN '21+ Years' THEN 5
     END;
+
+-- Analysis 4: Workforce composition by department
+-- Business question:
+-- How does the distribution of job titles explain
+-- differences in average departmental salaries?
+
+WITH Job_Counts AS (
+    SELECT
+        Department,
+        Job_Title,
+        COUNT(*) AS Employee_Count
+    FROM
+        `theproject-445202.employee_compensation.compensation_analysis`
+    GROUP BY
+        Department,
+        Job_Title
+)
+
+SELECT
+    Department,
+    Job_Title,
+    Employee_Count,
+    ROUND(
+        100.0 * Employee_Count /
+        SUM(Employee_Count) OVER (
+            PARTITION BY Department
+        ),
+        2
+    ) AS Percentage_of_Department
+FROM
+    Job_Counts
+ORDER BY
+    Department,
+    Percentage_of_Department DESC;
