@@ -91,3 +91,44 @@ FROM
 ORDER BY
     Department,
     Percentage_of_Department DESC;
+
+-- Analysis 5: Compensation by gender and job title
+-- Business question:
+-- Are there observable salary differences between
+-- genders within the same job title?
+
+SELECT
+    Job_Title,
+    Gender,
+    COUNT(*) AS Employee_Count,
+    ROUND(AVG(Salary), 2) AS Average_Salary,
+    ROUND(AVG(Experience_Years), 1) AS Average_Experience
+FROM
+    `theproject-445202.employee_compensation.compensation_analysis`
+GROUP BY
+    Job_Title,
+    Gender
+ORDER BY
+    Job_Title,
+    Gender;
+
+
+-- Analysis 6: Compensation by location and job title
+-- Business question:
+-- How does average compensation vary across
+-- geographic locations within the same job title?
+
+SELECT
+    Location,
+    Job_Title,
+    COUNT(*) AS Employee_Count,
+    ROUND(AVG(Salary), 2) AS Average_Salary,
+    ROUND(AVG(Experience_Years), 1) AS Average_Experience
+FROM
+    `theproject-445202.employee_compensation.compensation_analysis`
+GROUP BY
+    Location,
+    Job_Title
+ORDER BY
+    Job_Title,
+    Average_Salary DESC;
